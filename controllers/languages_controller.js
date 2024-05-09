@@ -55,23 +55,11 @@ languages.get('/', (req, res) => {
 
 // RANDOM LANGUAGE //
 languages.get('/random', async (req, res) => {
+    const languageList = await Language.find();
 
-    let count = await Language.countDocuments()
+    const langRandomIndex = Math.floor(Math.random() * (languageList.length))
 
-    let random = Math.floor(Math.random() * count)
-
-    Language.findOne().skip(random)
-        .then(foundLanguage => {
-            res.json(foundLanguage)
-        })
-});
-
-// SHOW //
-languages.get('/:name', (req, res) => {
-    Language.findOne({ name: req.params.name.toLowerCase() })
-        .then(foundLanguage => {
-            res.json(foundLanguage)
-        })
+    res.json(languageList[langRandomIndex])
 });
 
 
